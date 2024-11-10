@@ -32,3 +32,5 @@ build/
 .vscode/
 .idea/
 *.swp
+.eslintrc.js
+.prettierrc

@@ -1,11 +1,11 @@
 const express = require('express');
 const app = express();
-const pool = require('./config/database'); // Importa a conexão com o banco de dados
+const pool = require('./config/database.js');
 
 // Configuração básica do servidor
 const PORT = process.env.PORT || 3000;
 
-// Endpoint simples para verificar se o servidor está rodando
+// Endpoint para verificar se o servior está funcionando corretamente
 app.get('/', (req, res) => {
     res.send('Servidor backend está funcionando!');
 });

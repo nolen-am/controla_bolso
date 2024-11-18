@@ -10,6 +10,7 @@ const pool = new Pool({
     database: process.env.DB_NAME,
 });
 
+
 // Teste de conexão para garantir que o banco de dados está acessível
 pool.connect((err, client, release) => {
     if (err) {

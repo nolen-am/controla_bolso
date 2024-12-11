@@ -1,0 +1,36 @@
+# Node.js (Frontend e Backend)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Logs e relatórios
+logs
+*.log
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Dependências específicas de build
+dist/
+build/
+
+# Diretório de ambiente (se estiver usando .env em ambos os lados)
+.env
+.env.local
+.env.*.local
+
+# Cache do Next.js (Frontend)
+.next/
+
+# Cache do TypeScript (se estiver usando TypeScript)
+*.tsbuildinfo
+
+# Outros arquivos e diretórios comuns
+.DS_Store
+.vscode/
+.idea/
+*.swp
+.eslintrc.js
+.prettierrc

@@ -5,6 +5,16 @@ exports.create = async (req, res) => {
   try {
     const { nome, id_categoria, descricao, status } = req.body;
 
+    // Verificar se a categoria existe
+    const existeCategoria = await Categoria.findOne({
+      attributes:  ["nome", "id_categoria"],
+      where: { data_exlusao: null, status: true } 
+    });
+
+    if (!existeCategoria) {
+      return res.status(401).json({ message: "Categoria não existe!" })
+    }
+
     // Verificar se a subcategoria existe
     const existeSubcategoria = await Subcategoria.findOne({
       where: { nome, id_categoria },

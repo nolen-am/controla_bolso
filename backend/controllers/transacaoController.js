@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const { Transacao, Usuario, Categoria, Subcategoria, Recorrencia } = require('../models');
 
 // Criação de uma nova transação
@@ -60,24 +61,35 @@ exports.create = async (req, res) => {
 
 // Listar transações (com filtros opcionais)
 exports.findAll = async (req, res) => {
-  const { id_usuario, id_categoria, tipo, data_inicial, data_final } = req.query;
+  const { id_usuario } = req.user;
+  const { id_subcategoria, tipo, data_inicial, data_final, recorrente, valor_min, valor_max } = req.query;
 
   try {
     const whereConditions = {
+      id_usuario,
       data_exclusao: null,
     };
 
     if (id_usuario) whereConditions.id_usuario = id_usuario;
-    if (id_categoria) whereConditions.id_categoria = id_categoria;
+    if (id_subcategoria) whereConditions.id_subcategoria = id_subcategoria;
     if (tipo) whereConditions.tipo = tipo;
+    if (recorrente) whereConditions.recorrente = recorrente;
     if (data_inicial && data_final) {
       whereConditions.data = { [Op.between]: [data_inicial, data_final] };
+  }  else if (data_inicial) {
+      whereConditions.data = { [Op.gte]: data_inicial };
+    } else if (data_final) {
+      whereConditions.data = { [Op.lte]: data_final };
+    }
+    if (valor_min || valor_max) {
+      whereConditions.valor = {};
+      if (valor_min) whereConditions.valor[Op.gte] = Number(valor_min);
+      if (valor_max) whereConditions.valor[Op.lte] = Number(valor_max);
     }
 
     const transacoes = await Transacao.findAll({
       where: whereConditions,
       include: [
-        { model: Usuario, as: 'usuario', attributes: ['id_usuario', 'nome_usuario'] },
         { model: Categoria, as: 'categoria', attributes: ['id_categoria', 'nome'] },
         { model: Subcategoria, as: 'subcategoria', attributes: ['id_subcategoria', 'nome'] },
       ],

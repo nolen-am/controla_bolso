@@ -8,6 +8,6 @@ router.get('/:id', agendamentoController.findOne);
 router.get('/', agendamentoController.findAll);
 router.put('/:id', agendamentoController.update);
 router.delete('/soft-delete/:id', agendamentoController.softDelete);
-router.delete('/permanent/:id', agendamentoController.delete);
+// router.delete('/permanent/:id', agendamentoController.delete);
 
 module.exports = router;

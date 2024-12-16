@@ -37,6 +37,7 @@ const categoriaRoutes = require('./routes/categoriaRoutes');
 const subcategoriaRoutes = require('./routes/subcategoriaRoutes');
 const transacaoRoutes = require('./routes/transacaoRoutes');
 const agendamentoRoutes = require('./routes/agendamentoRoutes');
+const recorrenciaRoutes = require('./routes/recorrenciaRoutes');
 
 app.use('/api/auth', authRoutes); // Rotas de autenticação
 app.use('/api/usuarios', usuarioRoutes); // Rotas de usuario
@@ -45,6 +46,7 @@ app.use('/api/categorias', categoriaRoutes); // Rotas de categoria
 app.use('/api/subcategorias', subcategoriaRoutes); // Rotas de subcategoria
 app.use('/api/transacoes', transacaoRoutes); // Rotas de transação
 app.use('/api/agendamentos', agendamentoRoutes); // Rotas de agendamento
+app.use('/api/recorrencias', recorrenciaRoutes); // Rotas de recorrência
 
 // Iniciando o servidor
 const PORT = process.env.PORT || 3000;

@@ -36,6 +36,7 @@ const testRoutes = require('./routes/testAuthRoutes');
 const categoriaRoutes = require('./routes/categoriaRoutes');
 const subcategoriaRoutes = require('./routes/subcategoriaRoutes');
 const transacaoRoutes = require('./routes/transacaoRoutes');
+const agendamentoRoutes = require('./routes/agendamentoRoutes');
 
 app.use('/api/auth', authRoutes); // Rotas de autenticação
 app.use('/api/usuarios', usuarioRoutes); // Rotas de usuario
@@ -43,6 +44,7 @@ app.use('/api/testAuthRoutes', testRoutes);  // Rota de teste de autenticação 
 app.use('/api/categorias', categoriaRoutes); // Rotas de categoria
 app.use('/api/subcategorias', subcategoriaRoutes); // Rotas de subcategoria
 app.use('/api/transacoes', transacaoRoutes); // Rotas de transação
+app.use('/api/agendamentos', agendamentoRoutes); // Rotas de agendamento
 
 // Iniciando o servidor
 const PORT = process.env.PORT || 3000;

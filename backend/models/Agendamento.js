@@ -19,6 +19,12 @@ module.exports = (sequelize, DataTypes) => {
   }
   Agendamento.init(
     {
+      id_agendamento: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false,
+      },
       descricao_agendamento: {
         type: DataTypes.STRING,
         allowNull: true,

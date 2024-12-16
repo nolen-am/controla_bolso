@@ -19,6 +19,12 @@ module.exports = (sequelize, DataTypes) => {
   }
   Recorrencia.init(
     {
+      id_recorrencia: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false,
+      },
       recorrencia: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -39,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
       },
-      data_exlusao: {
+      data_exclusao: {
         type: DataTypes.DATE,
         allowNull: true,
       },

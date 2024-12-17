@@ -5,7 +5,7 @@ const createCategoriaSchema = Joi.object({
   nome: Joi.string().min(3).max(100).required(),
   descricao: Joi.string().allow(null, ''),
   id_usuario: Joi.number().integer().required(),
-  status: Joi.number(),
+  status: Joi.boolean(),
 });
 
 // Schema para atualizar uma categoria

@@ -1,8 +1,14 @@
 const { Recorrencia } = require('../models');
+const { createRecorrenciaSchema, updateRecorrenciaSchema } = require('../validations/recorrenciaValidations');
 
 // Criando uma nova recorrência
 exports.create = async (req, res) => {
   const { recorrencia, desc_recorrencia } = req.body;
+  const { error } = createRecorrenciaSchema.validate(req.body);
+
+  if (error) {
+    return res.status(400).json({ message: 'Erro na validação dos dados.', error: error.details });
+  }
 
   try {
     const novaRecorrencia = await Recorrencia.create({
@@ -55,6 +61,11 @@ exports.findOne = async (req, res) => {
 exports.update = async (req, res) => {
   const { id } = req.params;
   const { recorrencia, desc_recorrencia } = req.body;
+  const { error } = updateRecorrenciaSchema.validate(req.body);
+
+  if (error) {
+    return res.status(400).json({ message: 'Erro na validação dos dados.', error: error.details });
+  }
 
   try {
     if (!id) {

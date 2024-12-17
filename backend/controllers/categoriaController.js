@@ -1,7 +1,14 @@
 const { Categoria } = require('../models');
+const { createCategoriaSchema, updateCategoriaSchema } = require('../validations/categoriaValidations');
 
 // Criar nova categoria
 exports.create = async (req, res) => {
+  const { error } = createCategoriaSchema.validate(req.body);
+
+  if (error) {
+    return res.status(400).json({ message: 'Erro na validação dos dados.', error: error.details });
+  }
+
   const { nome, id_usuario, descricao, status } = req.body;
 
   try {
@@ -51,6 +58,12 @@ exports.findAll = async (req, res) => {
 
 // Atualizando uma categoria já existente
 exports.update = async (req, res) => {
+  const { error } = updateCategoriaSchema.validate(req.body);
+
+  if (error) {
+    return res.status(400).json({ message: 'Erro na validação dos dados.', error: error.details });
+  }
+
   const { id } = req.params;
   const { nome } = req.body;
   const { descricao } = req.body;

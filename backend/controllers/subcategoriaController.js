@@ -1,14 +1,21 @@
 const { Subcategoria, Categoria } = require('../models');
+const { createSubcategoriaSchema, updateSubcategoriaSchema } = require('../validations/subcategoriaValidations');
 
 // Criação de nova subcategoria
 exports.create = async (req, res) => {
+  const { error } = createSubcategoriaSchema.validate(req.body);
+
+  if (error) {
+    return res.status(400).json({ message: 'Erro na validação dos dados', error: error.details });
+  }
+
   try {
     const { nome, id_categoria, descricao, status } = req.body;
 
     // Verificar se a categoria existe
     const existeCategoria = await Categoria.findOne({
       attributes:  ["nome", "id_categoria"],
-      where: { data_exlusao: null, status: true } 
+      where: { data_exclusao: null, status: true } 
     });
 
     if (!existeCategoria) {
@@ -91,6 +98,11 @@ exports.findOne = async (req, res) => {
 exports.update = async (req, res) => {
   const { id } = req.params;
   const { nome, descricao, status } = req.body;
+  const { error } = updateSubcategoriaSchema.validate(req.body);
+
+  if (error) {
+    return res.status(400).json({ message: 'Erro na validação dos dados.', error: error.details });
+  }
 
   try {
     const subcategoria = await Subcategoria.findByPk(id);

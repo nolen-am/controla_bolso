@@ -1,7 +1,14 @@
 const { Usuario } = require('../models');
+const { createUserSchema, updateUserSchema }  = require('../validations/usuarioValidations');
 
 // Criar novo usuário
 exports.create = async (req, res) => {
+  const { error } = createUserSchema.validate(req.body);
+
+  if (error) {
+    return res.status(400).json({ message: "Erro na validação dos dados.", error: error.details });
+  }
+
   try {
     const usuario = await Usuario.create(req.body);
     res.status(201).json({ message: 'Usuário criado com sucesso: ', usuario });
@@ -43,6 +50,12 @@ exports.findOne = async (req, res) => {
 
 // Atualizar um usuário pelo seu ID
 exports.update = async (req, res) => {
+  const { error } = updateUserSchema.validate(req.body);
+
+  if (error) {
+    return res.status(400).json({ message: 'Erro na validação dos dados.', error: error.details });
+  }
+
   try {
     const [updated] = await Usuario.update(req.body, {
       where: { id_usuario: req.params.id },
@@ -72,7 +85,7 @@ exports.delete = async (req, res) => {
     }
     usuario.data_exclusao = new Date();
     await usuario.save();
-    res.status(200).json({ message: 'Usuário excluído!' })
+    res.status(200).json({ message: 'Usuário excluído!' });
   } catch(error) {
     res.status(500).json({ message: 'Erro ao excluir o usuário', error });
   }

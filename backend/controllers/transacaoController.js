@@ -1,8 +1,16 @@
 const { Op } = require('sequelize');
 const { Transacao, Usuario, Categoria, Subcategoria, Recorrencia } = require('../models');
+const { createTransactionSchema } = require('../validations/transacaoValidations');
 
 // Criação de uma nova transação
 exports.create = async (req, res) => {
+  const { error } = createTransactionSchema.validate(req.body);
+
+  if (error) {
+    return res.status(400).json({ message: "Erro na validação dos dados.", error: error.details });
+  }
+
+
   try {
     const { id_categoria, id_subcategoria, id_recorrencia, tipo, valor, data, descricao, recorrente } = req.body;
 
@@ -28,14 +36,6 @@ exports.create = async (req, res) => {
       return res
         .status(404)
         .json({ message: 'Subcategoria inválida ou não encontrada para a categoria fornecida.' });
-    }
-
-    // Validar o campo "tipo"
-    const tiposValidos = [1, 2, 3]; // 1: Entrada, 2: Saída, 3: Investimento
-    if (!tiposValidos.includes(tipo)) {
-      return res
-        .status(400)
-        .json({ message: 'Tipo de transação inválido. O tipo deve ser 1, 2 ou 3.' });
     }
 
     // Criando uma nova transação

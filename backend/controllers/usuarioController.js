@@ -1,13 +1,7 @@
 const { Usuario } = require('../models');
-const { createUserSchema, updateUserSchema }  = require('../validations/usuarioValidations');
 
 // Criar novo usuário
 exports.create = async (req, res) => {
-  const { error } = createUserSchema.validate(req.body);
-
-  if (error) {
-    return res.status(400).json({ message: "Erro na validação dos dados.", error: error.details });
-  }
 
   try {
     const usuario = await Usuario.create(req.body);
@@ -50,11 +44,6 @@ exports.findOne = async (req, res) => {
 
 // Atualizar um usuário pelo seu ID
 exports.update = async (req, res) => {
-  const { error } = updateUserSchema.validate(req.body);
-
-  if (error) {
-    return res.status(400).json({ message: 'Erro na validação dos dados.', error: error.details });
-  }
 
   try {
     const [updated] = await Usuario.update(req.body, {

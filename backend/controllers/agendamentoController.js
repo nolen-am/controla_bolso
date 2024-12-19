@@ -6,11 +6,6 @@ exports.create = async (req, res) => {
   try {
     const { id_transacao, id_recorrencia, descricao_agendamento } = req.body;
 
-    // Validando se os ID's foram informados na requisição
-    if (!id_transacao || !id_recorrencia) {
-      res.status(400).json({ message: 'Transação e recorrência são obrigatórios' });
-    }
-
     // Verificar se a transação existe
     const transacao = await Transacao.findByPk(id_transacao);
     if (!transacao) {
@@ -140,7 +135,6 @@ exports.softDelete = async (req, res) => {
 
   try {
     // Buscando o agendamento pelo ID
-
     const agendamento = await Agendamento.findByPk(id);
     
     // Validando se o agendamento existe

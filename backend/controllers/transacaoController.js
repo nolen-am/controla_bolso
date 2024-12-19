@@ -1,27 +1,11 @@
 const { Op } = require('sequelize');
 const { Transacao, Usuario, Categoria, Subcategoria, Recorrencia } = require('../models');
-const { createTransactionSchema } = require('../validations/transacaoValidations');
 
 // Criação de uma nova transação
 exports.create = async (req, res) => {
-  const { error } = createTransactionSchema.validate(req.body);
-
-  if (error) {
-    return res.status(400).json({ message: "Erro na validação dos dados.", error: error.details });
-  }
-
-
+  const { id_categoria, id_subcategoria, id_recorrencia, tipo, valor, data, descricao, recorrente } = req.body;
+  
   try {
-    const { id_categoria, id_subcategoria, id_recorrencia, tipo, valor, data, descricao, recorrente } = req.body;
-
-    // Obtendo o id_usuario do token decodificado
-    const id_usuario = req.user && req.user.id_usuario;
-
-    // Verificando se o usuário está autenticado
-    if (!id_usuario) {
-      return res.status(401).json({ message: 'Usuário não autenticado' });
-    }
-
     // Verificando se a categoria existe
     const categoria = await Categoria.findByPk(id_categoria);
     if (!categoria) {
@@ -40,7 +24,7 @@ exports.create = async (req, res) => {
 
     // Criando uma nova transação
     const transacao = await Transacao.create({
-      id_usuario,
+      id_usuario: req.user.id_usuario,
       id_categoria,
       id_subcategoria,
       id_recorrencia,

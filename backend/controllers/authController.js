@@ -13,13 +13,7 @@ exports.register = async (req, res) => {
       return res.status(400).json({ message: 'E-mail inválido!' });
     }
 
-    // Verificando se o e-mail já existe
-    const existingMail = await Usuario.findOne({ where: { email } });
-    if (existingMail) {
-      return res.status(400).json({ message: 'Este e-mail já existe!' });
-    }
-
-    // Gerar hash da senha antes de salvar
+    // Gerando hash da senha antes de salvar
     const hashedPassword = await bcrypt.hash(senha, 10);
 
     // Criar novo usuário com senha criptografada
@@ -34,11 +28,12 @@ exports.register = async (req, res) => {
 
     res.status(201).json({ message: 'Usuário criado com sucesso!', usuario });
   } catch (error) {
-    console.error('Erro ao criar usuário:', error);
+    if (error === 'SequelizeUniqueConstraintError') {
+      return res.status(500).json({ message: 'E-mail já registrado!', error });
+    }
     res.status(500).json({ message: 'Erro ao criar usuário!', error });
   }
 };
-
 
 // Login do usuário
 exports.login = async (req, res) => {

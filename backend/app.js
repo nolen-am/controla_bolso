@@ -38,6 +38,7 @@ const subcategoriaRoutes = require('./routes/subcategoriaRoutes');
 const transacaoRoutes = require('./routes/transacaoRoutes');
 const agendamentoRoutes = require('./routes/agendamentoRoutes');
 const recorrenciaRoutes = require('./routes/recorrenciaRoutes');
+const { swaggerUi, swaggerDocs } = require('./swagger');
 
 app.use('/api/auth', authRoutes); // Rotas de autenticação
 app.use('/api/usuarios', usuarioRoutes); // Rotas de usuario
@@ -47,6 +48,9 @@ app.use('/api/subcategorias', subcategoriaRoutes); // Rotas de subcategoria
 app.use('/api/transacoes', transacaoRoutes); // Rotas de transação
 app.use('/api/agendamentos', agendamentoRoutes); // Rotas de agendamento
 app.use('/api/recorrencias', recorrenciaRoutes); // Rotas de recorrência
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs)); // Rotas de documentação do Swagger
+console.log("Documentação das API's disponível em http://localhost:3000/api-docs");
 
 // Iniciando o servidor
 const PORT = process.env.PORT || 3000;
